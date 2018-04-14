@@ -54,8 +54,8 @@ def norm_params(controller, prev, go_to):
 def get_A_B(port):
     if port.badness == 0:
         delt = (port.max_val - port.min_val) // 7
-        # mean_val = (port.min_val + port.max_val) // 2
-        return port.min_val + delt, port.max_val - delt
+        mean_val = (port.min_val + port.max_val) // 2
+        return mean_val - delt, mean_val + delt
     elif port.badness == 1:
         mean_val = (port.min_val + port.max_val) // 2
         b = int(port.max_val * 1.3)
