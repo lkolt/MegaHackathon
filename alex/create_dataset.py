@@ -10,11 +10,12 @@ class User:
         self.password = password
 
 class Port:
-    def __init__(self, id, type, min_val, max_val):
+    def __init__(self, id, type, min_val, max_val, badness):
         self.id = id
         self.type = type
         self.min_val = min_val
         self.max_val = max_val
+        self.badness = badness
 
     def __hash__(self):
         return hash((self.id, self.type))
@@ -51,12 +52,21 @@ def norm_params(controller, prev, go_to):
     return dic
 
 def get_A_B(port):
-    delt = (port.max_val - port.min_val) // 7
-    mean_val = (port.min_val + port.max_val) // 2
-    return mean_val - delt, mean_val + delt
+    if port.badness == 0:
+        delt = (port.max_val - port.min_val) // 7
+        # mean_val = (port.min_val + port.max_val) // 2
+        return port.min_val + delt, port.max_val - delt
+    elif port.badness == 1:
+        mean_val = (port.min_val + port.max_val) // 2
+        b = int(port.max_val * 1.3)
+        return mean_val, b
+    else:
+        mean_val = (port.min_val + port.max_val) // 2
+        a = int(port.min_val * 0.7)
+        return a, mean_val
 
 def create_norm_params(controller):
-    dic = {'time' : time.time(),
+    dic = {'time' : int(time.time()),
            'sensors' : {x : mean_param(x) for x in controller.ports},
            'mac' : controller.mac
            }
@@ -77,12 +87,17 @@ def create_norm_params(controller):
         yield tmp
 
 ports = []
-ports.append(Port(1, 4, 10, 20))
-ports.append(Port(2, 9, 5, 31))
-ports.append(Port(3, 10, 7, 89))
-ports.append(Port(4, 7, 30, 100))
+ports.append(Port(1, 4, 10, 20, 0))
+ports.append(Port(2, 9, 5, 31, 0))
+ports.append(Port(3, 10, 7, 89, 0))
+ports.append(Port(4, 7, 30, 100, 0))
 
-contr = Controller(ports, '262g34hg45y4')
+contr = Controller(ports, '00:26:57:00:1f:02')
+
+ports2 = []
+ports2.append(Port(1, 10, 10, 100, 1))
+
+contr2 = Controller(ports2, '14:f6:02:a8:02:12')
 
 # for x in create_norm_params(contr):
 #     tmp = json.dumps(x, indent=2, sort_keys=True)
