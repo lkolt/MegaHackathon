@@ -1,0 +1,62 @@
+CREATE TABLE Port_desc (
+	type 		integer PRIMARY KEY,
+	measurement varchar(40)
+);
+
+CREATE TABLE Users (
+    id        serial PRIMARY KEY,
+    login     varchar(40) NOT NULL,
+    pass      varchar(40) NOT NULL
+);
+
+CREATE TABLE Controllers (
+    MAC       	varchar(40) PRIMARY KEY,
+    user_id   	integer REFERENCES Users (id),
+    desription 	varchar(40),
+	probability double precision
+);
+
+
+CREATE TABLE Log (
+	id_port 	integer, 
+	MAC 		varchar(40) REFERENCES Controllers (MAC), 
+	type 		integer REFERENCES Port_desc (type),
+	time 		integer,
+	time_string varchar(40),
+	value 		integer,
+	status		integer
+);
+
+CREATE TABLE Ports (
+	id_port 	integer, 
+	MAC 		varchar(40) REFERENCES Controllers (MAC),
+	type 		integer REFERENCES Port_desc (type), 
+	description	varchar(40),
+	max_value 	integer,
+	min_value 	integer
+);
+
+INSERT INTO Port_desc VALUES
+    (1, 'дБ'), 
+	(2, 'см'),
+	(3, 'м'),
+	(4, 'дм'),
+	(5, 'мм'),
+	(6, 'кг'),
+	(7, 'г'),
+	(8, 'м/с'),
+	(9, 'см/с'),
+	(10, 'А'),
+	(11, 'В'),
+	(12, 'С'),
+	(13, 'рад'),
+	(14, 'Гц'),
+	(15, 'Вт'),
+	(16, 'Дж'),
+	(17, 'Па');
+	
+INSERT INTO Users (login, pass) VALUES
+	('admin', 'admin');
+	
+INSERT INTO Log VALUES
+	(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
