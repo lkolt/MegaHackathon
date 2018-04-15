@@ -24,12 +24,12 @@ const routes = [
     children: [
       {
         path: 'overview',
-        name: 'overview',
+        name: 'Dashboard',
         component: Overview
       },
       {
         path: 'stats',
-        name: 'stats',
+        name: 'Add new controller',
         component: UserProfile
       },
       {

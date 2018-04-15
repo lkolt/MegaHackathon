@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 // Plugins
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import GlobalComponents from './globalComponents'
 import GlobalDirectives from './globalDirectives'
 import Notifications from './components/UIComponents/NotificationPlugin'
@@ -23,6 +25,7 @@ Vue.use(GlobalComponents)
 Vue.use(GlobalDirectives)
 Vue.use(Notifications)
 Vue.use(SideBar)
+Vue.use(VueAxios, axios)
 
 // configure router
 const router = new VueRouter({
