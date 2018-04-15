@@ -93,6 +93,12 @@ ports.append(Port(3, 1, 7, 89, 0))
 ports.append(Port(4, 2, 30, 100, 0))
 contr = Controller(ports, '00:26:57:00:1f:02')
 
+ports6 = []
+ports6.append(Port(1, 4, 10, 20, 0))
+ports6.append(Port(2, 5, 5, 31, 0))
+ports6.append(Port(3, 1, 7, 89, 0))
+ports6.append(Port(4, 2, 30, 100, 0))
+contr6 = Controller(ports6, '01:26:FF:FF:1f:02')
 
 ports2 = []
 ports2.append(Port(1, 3, 10, 100, 1))

@@ -1,5 +1,8 @@
 import postgresql
 import numpy as np
+import random as rd
+import alex.create_dataset as cr_data
+import time
 db = postgresql.open('pq://postgres:@10.0.1.99:5432/hackathondb')
 
 def get_data(mac):
@@ -37,9 +40,41 @@ def predict(data, min_max):
 def set_contr(mac):
     res = predict(*get_data(mac))
     db.query(f"UPDATE controllers SET probability = {res} WHERE mac = '{mac}'")
+    return
 
-mac = '00:26:57:00:1f:02'
-set_contr(mac)
+
+def get_prob(mac):
+    prob = db.query(f"SELECT probability FROM controllers WHERE mac = '{mac}'")
+    return prob[0][0]
+
+def set_prob(mac, val):
+    db.query(f"UPDATE controllers SET probability = {val} WHERE mac = '{mac}'")
+    return
+
+
+# mac = '00:26:57:00:1f:02'
+# set_contr(mac)
+
+
+if __name__ == '__main__':
+    controllers = cr_data.contrs
+    macs = [x.mac for x in controllers]
+    bad_macs = [x.mac for x in controllers if any(map(lambda y: y.badness != 0, x.ports))]
+    good_macs = [x for x in macs if x not in bad_macs]
+    while True:
+        for x in macs:
+            # if x in good_macs:
+            #     cur_prob = get_prob(x)
+            #     delt = rd.choice([-2, -1, 1, 2])
+            #     new_prob = cur_prob + delt
+            #     if new_prob <= 0 or new_prob >= 100:
+            #         new_prob = cur_prob - delt
+            #     set_prob(x, new_prob)
+            # else:
+            #     set_contr(x)
+            set_contr(x)
+        time.sleep(1)
+
 
 
 
