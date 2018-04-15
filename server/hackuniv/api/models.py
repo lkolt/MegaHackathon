@@ -73,11 +73,10 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
-
 class Controllers(models.Model):
     mac = models.CharField(primary_key=True, max_length=40)
     user_id = models.IntegerField(blank=True, null=True)
-    desription = models.CharField(max_length=40, blank=True, null=True)
+    description = models.CharField(max_length=40, blank=True, null=True)
     probability = models.FloatField(blank=True, null=True)
 
     class Meta:
@@ -143,9 +142,20 @@ class Log(models.Model):
         db_table = 'log'
 
 
+class Models(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=40, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'models'
+
+
 class PortDesc(models.Model):
     type = models.IntegerField(primary_key=True)
     measurement = models.CharField(max_length=40, blank=True, null=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    icon = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -153,7 +163,7 @@ class PortDesc(models.Model):
 
 
 class Ports(models.Model):
-    id_port = models.IntegerField(primary_key=True)
+    id_port = models.IntegerField()
     mac = models.CharField(max_length=40)
     type = models.IntegerField(blank=True, null=True)
     description = models.CharField(max_length=40, blank=True, null=True)
@@ -163,7 +173,6 @@ class Ports(models.Model):
     class Meta:
         managed = False
         db_table = 'ports'
-        unique_together = (('id_port', 'mac'),)
 
 
 class Users(models.Model):
